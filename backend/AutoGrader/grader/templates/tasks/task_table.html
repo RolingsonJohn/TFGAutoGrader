@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>
+        Lista de Tareas
+    </title>
+{% endblock %}
+
+{% block content %}
+<h1>Tareas</h1>
+<table class="table" border="2">
+    <thead>
+      <tr>
+        <th scope="col">Tema</th>
+        <th scope="col">Motor LLM</th>
+        <th scope="col">Agente LLM</th>
+        <th scope="col">Estado</th>
+        <th scope="col">CSV</th>         {# Nueva columna #}
+        <th scope="col">Eliminar</th>   {# Nueva columna #}
+      </tr>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+        <tr>
+            <td scope="row">{{ task.theme }}</td>
+            <td>{{ task.model }}</td>
+            <td>{{ task.model.agent }}</td>
+            <td>{{ task.status }}</td>
+
+            {# Botón CSV: solo si ya está procesada #}
+            <td>
+              {% if task.status == 'SUCCESS' %}
+                <a 
+                  class="GenericButton btn-sm" 
+                  href="{% url 'download_task_csv' task.id %}">
+                  CSV
+                </a>
+              {% else %}
+                —
+              {% endif %}
+            </td>
+
+            {# Botón Eliminar #}
+            <td>
+              <form 
+                method="post" 
+                action="{% url 'delete_task' task.id %}" 
+                style="display:inline;"
+                onsubmit="return confirm('¿Eliminar tarea {{ task.id }}?');"
+              >
+                {% csrf_token %}
+                <button 
+                  type="submit" 
+                  class="GenericButton btn-sm">
+                  Eliminar
+                </button>
+              </form>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+          <td colspan="6">No tienes tareas aún.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a class="GenericButton" href="{% url 'task-create' %}">
+    Add Task
+</a>
+{% endblock %}

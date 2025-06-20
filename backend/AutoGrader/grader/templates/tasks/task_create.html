@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Create Task</title>
+{% endblock %}
+
+{% block content %}
+<h1>Creación de la Tarea</h1>
+
+<form method="POST" enctype="multipart/form-data" id="main-form">
+    {% csrf_token %}
+    <div class="task-container">
+
+        <div class="data-content">
+            <p>
+                Uso de Configuración del perfil:<br>
+                {{ form.config|escape }}
+            </p>
+
+            <p>
+                Temática del ejercicio:<br>
+                {{ form.theme|escape }}
+            </p>
+
+            <p>
+                Lenguaje de programación:<br>
+                {{ form.prog_lang|escape }}
+            </p>
+
+            <p>
+                Modelo LLM:<br>
+                {{ form.model|escape }}
+            </p>
+
+            <p id="agent-field">
+                <label for="id_agent">Agente:</label><br>
+                <input type="text" id="agent_display" value="{{ agent.name }}" readonly>
+                {{ form.agent|escape }} {# input hidden #}
+            </p>
+        </div>
+
+        <div class="rubric-content">
+            <h3>Rúbricas</h3>
+            <div class="dropzone" id="rubric-dropzone">
+                <p>Arrastra el archivo JSON aquí o haz clic para seleccionarlo</p>
+                {{ form.rubric_file|escape }}
+            </div>
+        </div>
+
+        <div class="files-content">
+            <h3>Ficheros a Evaluar</h3>
+            <div class="dropzone" id="exercise-dropzone">
+                <p>Arrastra los archivos aquí o haz clic para seleccionarlos</p>
+                {{ form.exercise_file|escape }}
+            </div>
+        </div>
+    </div>
+
+    <button class="GenericButton" type="submit">Crear tarea</button>
+</form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Mis Ejemplos</title>{% endblock %}
+
+{% block content %}
+<h1>Ejemplos Subidos</h1>
+<table class="table" border="1">
+  <thead>
+    <tr>
+      <th>Tema</th>
+      <th>Lenguaje</th>
+      <th>Creado</th>
+      <th>Ver</th>
+      <th>Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ex in examples %}
+      <tr>
+        <td>{{ ex.theme|escape }}</td>
+        <td>{{ ex.prog_lang|escape }}</td>
+        <td>{{ ex.created_at|date:"Y-m-d H:i" }}</td>
+        <td>
+          <a class="GenericButton btn-sm" href="{% url 'example-detail' ex.id %}">
+            Ver código
+          </a>
+        </td>
+        <td>
+          <form method="post" action="{% url 'example-delete' ex.id %}"
+                onsubmit="return confirm('Eliminar ejemplo {{ ex.theme }}?');"
+                style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="GenericButton btn-sm">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5">No hay ejemplos aún.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a class="GenericButton" href="{% url 'example-create' %}">Nuevo Ejemplo</a>
+{% endblock %}

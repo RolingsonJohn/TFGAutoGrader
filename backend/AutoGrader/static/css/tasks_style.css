@@ -1,0 +1,43 @@
+.task-container {
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: flex-start; /* Alinea el contenido arriba */
+    gap: 5%;
+    flex-wrap: wrap;
+    margin: left;
+    max-width: 75% ; /* Controla el ancho total */
+}
+
+.data-content,
+.rubric-content,
+.files-content {
+    flex: 1;
+    min-width: auto;
+    max-width: auto;
+    padding: 20px;
+}
+
+/* Estilos visuales coherentes */
+.rubric-content,
+.files-content {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Dropzone más visible y centrada */
+.dropzone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 6px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.dropzone.dragover {
+    background-color: #e0ffe0;
+    border-color: #0c0;
+}

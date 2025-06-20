@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Subir Ejemplos de Código</title>
+{% endblock %}
+
+{% block content %}
+<h1>Sube Ejemplos de Código</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="id_theme">Tema del ejercicio</label><br>
+    {{ form.theme|escape }}
+  </div>
+
+  <div class="form-group">
+    <label for="id_prog_lang">Lenguaje de programación</label><br>
+    {{ form.prog_lang|escape }}
+  </div>
+
+  <div class="form-group">
+    <label for="id_files">Ficheros de código</label>
+    <div class="dropzone" id="files-dropzone">
+      <p>Arrastra tus .py o .c aquí, o haz clic para seleccionarlos</p>
+      {{ form.files|escape }}
+    </div>
+  </div>
+
+  <button class="GenericButton" type="submit">Guardar ejemplos</button>
+</form>
+{% endblock %}

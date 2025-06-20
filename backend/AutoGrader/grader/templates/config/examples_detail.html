@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Ver Ejemplo</title>{% endblock %}
+
+{% block content %}
+<h1>Ejemplo: {{ example.theme|escape }}</h1>
+<p><strong>Lenguaje:</strong> {{ example.prog_lang|escape }}</p>
+
+{% for file in files %}
+  <h3>{{ file.name }}</h3>
+  <pre style="background:#f8f8f8; padding:1em; border-radius:4px; overflow-x:auto">
+{{ file.content|escape }}
+  </pre>
+  <hr>
+{% endfor %}
+
+<a class="GenericButton" href="{% url 'examples' %}">Volver a lista</a>
+{% endblock %}

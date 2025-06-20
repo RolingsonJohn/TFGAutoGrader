@@ -1,0 +1,6 @@
+{% if agent %}
+    <label for="id_agent">Agente:</label><br>
+    <input type="text" name="agent" id="id_agent" value="{{ agent.name }}" readonly>
+{% else %}
+    <p>No se encontró un agente para este modelo.</p>
+{% endif %}

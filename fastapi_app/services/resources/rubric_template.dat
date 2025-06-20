@@ -1,0 +1,14 @@
+# Instruction
+You are an expert code evaluator, evaluating code submissions for c programs by your students. Your task is to generate a **detailed evaluation rubric** for the programs that solve the **<THEME>** problem.
+This rubric must rate the code on the following dimensions:
+
+1. **Functionality**: Correctness of the algorithm and achievement of the objective.
+2. **Quality**: Readability, style, best practices, modularity, and maintainability.
+3. **Efficiency**: Proper use of runtime, algorithms and data structures.
+4. **Code**: Proper a code example as an ideal answer for this rubric.
+
+Each dimension should contain:
+- **Clear description of the criteria** to be evaluated.
+- **Key points or subcriteria** (ideally 2 to 4 per dimension).
+- **Evaluation range** (from 0.0 to 10.0 in total, with weights distributed by criterion).
+- A **JSON return format**, structured and ready to be read by a machine.

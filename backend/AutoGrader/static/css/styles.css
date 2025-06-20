@@ -1,0 +1,120 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.topbar {
+    width: 100%;
+    background-color: #8fbfef;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.slide-panel {
+    width: 250px;
+    height: 100%;
+    background-color: #f0f0f0;
+    position: fixed;
+    top: 60px; /* debajo de la barra superior */
+    left: -250px;
+    transition: left 0.3s ease;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    z-index: 999;
+}
+
+.slide-panel.open {
+    left: 0;
+}
+
+.col-sm-10 {
+    top: 100px;
+}
+
+.image-button {
+    background: none;
+    border: 10px;
+    border-radius: 5px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.image-button img {
+    display: block;
+}
+
+.dropzone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+.dropzone.dragover {
+    background-color: #e0ffe0;
+    border-color: #0c0;
+}
+input[type="file"] {
+    display: none;
+}
+
+#main-content {
+    transition: margin-left 0.3s ease;
+    margin-left: 0;
+}
+
+#main-content.shifted {
+    margin-left: 250px; /* mismo ancho que el panel */
+}
+
+#body {
+    font-family: 'Nunito';
+    background-color:  #5d8fc9;
+  }
+  #login-card{
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+  }
+  
+    #email{
+        border-radius:30px;
+        background-color: #ebf0fc;
+        border-color: #ebf0fc;
+        color: #9da3b0;
+    }
+  
+    #button{
+        border-radius:30px;
+
+    }
+  
+    #btn{
+        position: absolute; 
+        bottom: -35px; 
+        padding: 5px;
+        margin: 0px 55px;
+        align-items: center;
+        border-radius: 5px"
+    }
+    #container{
+        margin-top:25px;
+    }
+  
+    .btn-circle.btn-sm {
+        margin: auto;
+        width: 40px; 
+        height: 40px; 
+        padding: auto; 
+        border-radius: 25px; 
+        font-size: 20px; 
+        align-items: center;
+}

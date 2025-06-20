@@ -1,0 +1,30 @@
+{
+    "Functionality": {
+        "criteria": [
+            "The algorithm correctly calculates the nth Fibonacci number.",
+            "The function handles edge cases (e.g., n <= 0) correctly."
+        ],
+        "weight": 4.0
+    },
+    "Quality": {
+        "criteria": [
+            "Code is well-structured, with clear and concise variable names.",
+            "Comments are provided to explain complex logic or algorithms."
+        ],
+        "weight": 3.0
+    },
+    "Efficiency": {
+        "criteria": [
+            "The algorithm has a time complexity of O(n) or better.",
+            "Proper use of data structures (e.g., arrays, linked lists)."
+        ],
+        "weight": 2.0
+    },
+    "Logic": {
+        "criteria": [
+            "Code is free from syntax errors and compiles successfully."
+        ],
+        "weight": 1.0
+    },
+    "Code": "```c\n#include <stdio.h>\n\n// Function to calculate the nth Fibonacci number\nint fibonacci(int n) {\n    if (n <= 0) { // Handle edge case: n <= 0\n        return 0;\n    }\n    else if (n == 1) { // Base case: n = 1\n        return 1;\n    }\n    else { // Recursive case: n > 1\n        return fibonacci(n-1) + fibonacci(n-2);\n    }\n}\n\nint main() {\n    int n; // Input number for which to calculate the Fibonacci number\n    printf(\"Enter a positive integer: \");\n    scanf(\"%d\", &n);\n    printf(\"The %dth Fibonacci number is: %d\\n\", n, fibonacci(n));\n    return 0;\n}\n```"
+}
