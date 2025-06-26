@@ -3,6 +3,12 @@ import re
 class CodeCleanner:
     """Módulo encargado de la limpieza de comentarios del código"""
     def remove_comments(path: str):
+        """
+            Método encargado del borrado de
+            comentarios para los lenguajes c, java y python
+            Input:
+                - path (str): Ruta del fichero
+        """
         
         with open(path, 'r', encoding='utf-8') as archivo:
             code = archivo.read()

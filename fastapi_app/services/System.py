@@ -17,16 +17,23 @@ from services.PostEvaluation.MailSender import MailSender
 BASE_DIR = Path(__file__).resolve().parent
 
 class System:
+    """
+        Módulo Singleton, relaciona
+        todos los módulos de la herramienta
+        y establece el flujo de ejecución.
+    """
+
     _instance = None
 
     def __new__(cls, theme: str = None, prog_lang: str = None,
                 llm_model: str = None, agent: str = None,
                 api_key: str = None, token: str = None,
                 zip_path: Path = None, rubric_path: Path = None):
+        """
+        Método de inicialización de la clase Singleton
+        """
         if not cls._instance:
-            # Crear nueva instancia la primera vez
             cls._instance = super(System, cls).__new__(cls)
-            # Inicializar atributos una única vez
             cls._instance.theme = theme
             cls._instance.prog_lang = prog_lang
             cls._instance.llm_model = llm_model
@@ -43,6 +50,10 @@ class System:
 
 
     def data_extraction(self) -> tuple:
+        """
+          Método encargado de la carga de los
+            ficheros a evaluar.
+        """
         # --- Carga de datos ---
         clf_model = joblib.load(CLF_MODEL)
         files = FileLoader.files_extraction(str(self.data_file), "data")
@@ -51,6 +62,15 @@ class System:
         return (clf_model, files, ref)
 
     def preevaluation(self, clf_model, files, ref):
+
+        """
+            Método encargado del tratamiento de los ficheros recibidos
+            y de la clasificación de estos en función a uno de referencia.
+            Inpput:
+                - clf_model (BaseStimator): modelo de clasificación.
+                - files (list[str]): Conjunto de ficheros a evaluar.
+                - ref (str): Código que se emplea de referencia para la clasificación.
+        """
 
         # --- Tratamiento ---
         tags = {"<PLANGUAGE>": self.prog_lang, "<FORMAT>": "Json"}
@@ -93,6 +113,13 @@ class System:
 
 
     def evaluation(self, scripts: dict):
+
+        """
+            Método encargado de la evaluación de los ejercicios
+            clasificados como evaluables.
+            Inpput:
+                - scripts (dict): Conjunto de ejercicios a evaluar junto al nombre de su fichero.
+        """
         # --- Evaluation ---
         ev = Evaluator(
             codes=scripts,
@@ -118,6 +145,14 @@ class System:
         return all_results
     
     def postevaluation(self, results, to_email: str):
+
+        """
+            Método encargado de la comunicación a los estudiantes
+            mediante correo electrónico.
+            Inpput:
+                - results (list[dict]): Conjunto de evaluaciones y feedbacks de los ejercicios.
+                - to_email (str): Correo al que emitir la calificación y el feedback.
+        """
         # --- Post-Evaluation ---
         
         grades = [ev.get("grade") for ev in results]
@@ -147,6 +182,10 @@ class System:
         )
     
     def sandbox_execution(self):
+        """
+            Método que permite la ejecución de los ejercicios
+            de programación en un entorno aislado al host.
+        """
         sandbox = Sandbox(prog_lan=self.prog_lang)
         sandbox.build_image()
         sandbox.create_container()

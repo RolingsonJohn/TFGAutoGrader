@@ -36,6 +36,12 @@ class Rag:
 
 
     def get_embeddings(self, text: str) -> np.ndarray:
+        """
+        Método que permite obtener la representación
+        vectorial del texto a almacenar en el RAG.
+        Input:
+            - text (str): Texto a almacenar.
+        """
 
         inputs = self.tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
         with torch.no_grad():
@@ -46,6 +52,14 @@ class Rag:
     
 
     def add_example(self, title: str, description: str, code: str, theme: list):
+        """
+            Método que permite añadir un ejemplo de código funcional
+            Input:
+                - title: Nombre del ejemplo
+                - description: Breve descripción de como soluciona el problema
+                - code: Código del ejemplo.
+                - theme: Tema del problema a tratar.
+        """
         title = re.sub(r'\s+', '-', title)  # Reemplaza espacios por guiones
         theme_str = ', '.join(theme)  # Convierte la lista en string separado por comas
         text = f"{title}\n{description}\n{code}"
@@ -63,14 +77,32 @@ class Rag:
 
 
     def delete_example(self, title: str):
+        """
+            Método que permite eliminar un ejemplo concreto
+            a partir del titulo de este.
+            Input:
+                - title (str): Titulo del ejemplo a eliminar
+        """
         self.collection.delete(ids=[title])
 
 
     def delete_collection(self, name: str):
+        """
+            Método que permite eliminar una colección del RAG.
+            Input:
+                - name (str): nombre de la colección a eliminar
+        """
         self.client.delete_collection(name=name)
 
 
     def get_examples(self, query: str, relatives: int = 3):
+        """
+            Método que permite extraer los ejemplos del RAG a partir
+            de una query.
+            Input:
+                - query (str): Texto relacionado con el ejemplo.
+                - relatives (int): Numero de ejemplos que coincidan con el embedding a extraer.
+        """
         query = re.sub(' ', '', query)
         resultados = self.collection.query(
             query_texts=[query],

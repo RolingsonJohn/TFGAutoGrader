@@ -6,9 +6,11 @@ from services.Config import Config as config
 from pathlib import Path
 
 class MailSender:
-    """Módulo encargado de la emisión automática de
-    la retroalimentación a los estudiantes del ejercicio enviado.
-    Emplea la API msal de Microsoft Graph."""
+    """
+        Módulo encargado de la emisión automática de
+        la retroalimentación a los estudiantes del ejercicio enviado.
+        Emplea la API msal de Microsoft Graph.
+    """
 
     def __init__(self, endpoint, token= None):
         self.endpoint = endpoint
@@ -16,6 +18,11 @@ class MailSender:
 
 
     def authenticate(self):
+        """
+            Método que permite la autenticación
+            del usuario en caso de no disponer de un
+            token.
+        """
         app = msal.PublicClientApplication(
             config.CLIENT_ID,
             authority=config.AUTHORITY,
@@ -31,6 +38,12 @@ class MailSender:
 
 
     def create_attachment(self, data: str, attch_name: str) -> dict:
+        """
+            Método que permite adjuntar ficheros al mensaje a emitir
+            Input:
+                - data (str): Texto plano que se quiere emitir.
+                - attch_name (str): Nombre del fichero.
+        """
 
         encoded_data = base64.b64encode(data.encode('utf-8')).decode('utf-8')
         attachment = {
@@ -44,6 +57,14 @@ class MailSender:
     
 
     def send_email(self, subject: str, body: str, attch: list, to_email: str):
+        """
+            Método encargado de enviar el correo especificando
+            el destinatario, el asunto y el cuerpo del correo.
+            Input:
+                - subject (str): Asunto del correo
+                - body (str): Cuerpo del mensaje.
+                - to_email (str): Correo destinatario
+        """
 
         headers = {
             'Authorization': f'Bearer {self.token}',
@@ -75,13 +96,3 @@ class MailSender:
         else:
             print(f'Error enviando el correo: {response.status_code}')
             print(response.text)
-
-if __name__ == "__main__":
-    sender = MailSender(config.ENDPOINT)
-    sender.authenticate()
-    sender.send_email(
-        subject="Wosko",
-        body="Este es el contenido del informe semanal.\n- Punto 1\n- Punto 2",
-        attch= f"{Path(__file__).resolve().parent}/Sandbox/Dockerfile",
-        to_email= "j.a.rolingson@gmail.com"
-    )

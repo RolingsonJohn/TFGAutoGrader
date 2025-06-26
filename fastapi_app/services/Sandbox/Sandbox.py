@@ -7,6 +7,12 @@ from pathlib import Path
 class Sandbox:
 
     def __init__(self, prog_lan : str = 'c', docker_host: str = config.DOCKER_HOST):
+        """
+            Método de inicialización de la clase
+            Input:
+                - prog_lan (str): Lenguaje de programación en el que está escrito el programa a evaluar.
+                - docker_host (str): Dirección donde se encuentra desplegado el servicio docker.
+        """
 
         self.client = docker.DockerClient(base_url=docker_host)
                                           
@@ -16,6 +22,12 @@ class Sandbox:
 
 
     def build_image(self, image: str = 'sandbox:1'):
+        """
+            Método que permite construir la imagen del entorno docker a partir
+            del Dockerfile.
+            Input:
+                - image (str): Nombre de la imagen a crear
+        """
         
         if image not in self.client.images.list():
             try: 
@@ -31,6 +43,13 @@ class Sandbox:
     
 
     def create_container(self, image: str = 'sandbox:1'):
+        """
+            Método que permite construir el contenedor donde
+            ejecutar los ejercicio dada la imagen del contenedor.
+            Input:
+                - image: Nombre de la imagen a utilizar para crear el contenedor.
+        """
+         
         name = "sandbox_container"
         try:
             existing = self.client.containers.get(name)
@@ -39,11 +58,9 @@ class Sandbox:
             existing.remove()
             logging.debug(f"Contenedor {name} eliminado.")
         except docker.errors.NotFound:
-            # No existía, todo OK
             pass
         except Exception as e:
             logging.error(f"Error al limpiar contenedor previo {name}: {e}")
-            # seguimos adelante para intentar crear uno nuevo
         try:
             volumes = {
                 f'{str(self.path.parent.parent)}/data': {
@@ -66,6 +83,13 @@ class Sandbox:
     
 
     def run_container(self):
+        """
+            Método que se encarga de buscar los ficheros a evaluar dentro del
+            entorno virtualizado, compilarlos, ejecutarlos y retornar los errores
+            posibles y posteriormente, eliminar los ficheros resultantes de la compilación
+            y ejecución.
+        """
+
         if not self.container:
             logging.error("No hay contenedor activo.")
             return {}
@@ -142,5 +166,9 @@ class Sandbox:
         return results
 
     def stop_container(self):
+        """
+            Método encargado de detener el contenedor en ejecución y
+            eliminarlo.
+        """
         self.cont.stop()
         self.cont.remove()

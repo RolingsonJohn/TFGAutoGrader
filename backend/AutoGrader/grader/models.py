@@ -7,6 +7,16 @@ from datetime import date
 
 
 class LLMAgent(models.Model):
+    """
+        Modelo que representa el agente LLM
+        que se empleará para la evaluación.
+        Actualmente solo están disponibles:
+            - ollama
+            - groq
+            - Genai
+        Se debe especificar el nombre del agente
+        y la API_KEY en caso de que esta sea necesaria.
+    """
     name = models.CharField(
         max_length=200, unique=True, help_text="", default="ollama")
     
@@ -20,6 +30,12 @@ class LLMAgent(models.Model):
 
 
 class LLMModel(models.Model):
+    """
+        Modelo LLM que se empleará para la
+        evaluación. Debe ser un modelo disponible en los
+        agentes.
+        Se debe especificar el agente concreto y el nombre del modelo.
+    """
     name = models.CharField(
         max_length=200, unique=True, help_text="")
     agent = models.ForeignKey(LLMAgent, default="ollama", on_delete=models.SET_DEFAULT, null=False)
@@ -32,6 +48,14 @@ class LLMModel(models.Model):
 
 
 class Task(models.Model):
+    """
+        Modelo que representa el conjunto
+        de documentos a evaluar por parte del
+        modelo LLM. 
+        Se debe especificar las rúbricas a emplear,
+        el tema del ejercicio, el lenguaje de programación,
+        los ejercicios comprimidos en zip y el modelo a utilizar.
+    """
     STATUS_CHOICES = [
         ('PENDING',   'En proceso'),
         ('SUCCESS',   'Completado'),
@@ -58,7 +82,8 @@ class Task(models.Model):
 
 class TaskResult(models.Model):
     """
-    Guarda cada resultado devuelto por el microservicio.
+    Almacena cada resultado devuelto por la herramienta de
+    evaluación.
     """
     task = models.ForeignKey(
         Task,
@@ -78,6 +103,10 @@ class TaskResult(models.Model):
     
 
 class CodeExample(models.Model):
+    """
+        Representa los modelos que serán utilizados en el RAG,
+        y permite su visualización.
+    """
     user       = models.ForeignKey(User, on_delete=models.CASCADE)
     theme      = models.CharField(max_length=200)
     prog_lang  = models.CharField(max_length=50)
@@ -88,6 +117,9 @@ class CodeExample(models.Model):
 
 
 class CodeExampleFile(models.Model):
+    """
+        Almacena los ejemplos que serán utilizados en el RAG
+    """
     example = models.ForeignKey(
         CodeExample,
         on_delete=models.CASCADE,
